@@ -383,6 +383,24 @@ el("sim").addEventListener("click", () => {
   setTimeout(() => { btn.disabled = false; btn.textContent = "Run it again"; }, 260 * 6);
 });
 
+// Deep links: /pass/?area=backbay&state=major opens straight into that moment.
+const P = new URLSearchParams(location.search);
+if (P.get("area") && ZONES.some(z => z.id === P.get("area"))) el("area").value = P.get("area");
+if (P.get("school")) el("school").value = P.get("school");
+if (P.get("state") && STATES[P.get("state")]) state = P.get("state");
+if (P.get("added") === "1" || P.get("state")) {
+  el("hint").textContent = "Added to Wallet.";
+  el("livestep").style.display = "";
+}
+if (P.get("side") === "back") el("flip").click();
+if (P.get("notif") === "1") {
+  el("ntime").textContent = "10:15 AM"; el("clk").textContent = "10:15";
+  el("notif").classList.add("in");
+  el("log").innerHTML = LOG.map(([t,m]) =>
+    '<div class="e in"><span class="t mono">' + t + ' AM</span><span class="m">' + m + '</span></div>').join("");
+}
+[...el("states").children].forEach(x => x.classList.toggle("on", x.dataset.s === state));
+
 render();
 </script>
 <div class="wrap"><div class="ft mono">
