@@ -52,6 +52,38 @@ function page(title, active, body) {
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="Boston starts over every September.">
 <style>${TOKENS}${experienceCSS()}</style></head><body>
+<div class="gate" id="gate"><div class="in">
+  <div class="tag mono">SEPTEMBER IN BOSTON</div>
+  <h2>One email.<br>Then never again.</h2>
+  <p>This is the web version. The Wallet card &mdash; your stop, your street, your month, on the lock screen &mdash; is nearly ready. Leave an address and I&rsquo;ll tell you the day it&rsquo;s live.</p>
+  <form action="${FORM_ACTION}" method="POST" target="gate-sink" id="gate-form" autocomplete="on">
+    <input type="email" name="${FORM_FIELD}" placeholder="you@school.edu" required aria-label="Email">
+    <button type="submit">Tell me once</button>
+  </form>
+  <p class="ok" id="gate-ok">Got it. See you when it&rsquo;s ready.</p>
+  <p class="promise">We will never spam you. No newsletter, no updates, no offers, nothing sold on.
+  One email, ever &mdash; the day the Wallet card launches. That is the only reason we are asking.</p>
+  <button class="skip" id="gate-skip">Just let me look around</button>
+</div></div>
+<iframe name="gate-sink" style="display:none" title="submit"></iframe>
+<script>
+(function(){
+  var KEY="sib.gate", g=document.getElementById("gate");
+  if(localStorage.getItem(KEY)){ g.remove(); return; }
+  document.documentElement.style.overflow="hidden";
+  requestAnimationFrame(function(){ g.classList.add("on"); });
+  function close(){ localStorage.setItem(KEY,"1"); g.classList.remove("on");
+    document.documentElement.style.overflow="";
+    setTimeout(function(){ g.remove(); }, 340); }
+  document.getElementById("gate-skip").addEventListener("click", close);
+  document.getElementById("gate-form").addEventListener("submit", function(){
+    localStorage.setItem(KEY,"1");
+    document.getElementById("gate-form").style.display="none";
+    document.getElementById("gate-ok").style.display="block";
+    setTimeout(close, 1100);
+  });
+})();
+</script>
 <div class="strip"><div class="in mono">${nav}</div></div>
 ${body}
 <div class="wrap"><div class="ft mono">

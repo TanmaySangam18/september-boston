@@ -110,6 +110,28 @@ h1.display{font-size:clamp(64px,15vw,168px);line-height:.86;letter-spacing:-.055
 .idc .row div .k{font-size:8.5px}
 .idc .row div .v{font-size:14px;margin-top:3px}
 
+/* first-visit gate */
+.gate{position:fixed;inset:0;z-index:100;background:var(--paper);display:flex;
+  align-items:center;justify-content:center;padding:26px;
+  opacity:0;pointer-events:none;transition:opacity .32s ease}
+.gate.on{opacity:1;pointer-events:auto}
+.gate .in{max-width:470px;width:100%}
+.gate .tag{font-size:10.5px;letter-spacing:.17em;color:var(--ink-3);margin-bottom:16px}
+.gate h2{font-size:clamp(38px,8vw,62px);line-height:.94;letter-spacing:-.045em;font-weight:760;margin-bottom:16px}
+.gate p{font-size:16px;color:var(--ink-2);line-height:1.55;margin-bottom:20px}
+.gate form{display:flex;gap:9px;flex-wrap:wrap}
+.gate input{flex:1;min-width:210px;border:1px solid var(--rule);background:var(--card);
+  border-radius:3px;padding:14px 14px;font-size:16px;font-family:inherit;color:var(--ink);outline:none}
+.gate input:focus{border-color:var(--ink)}
+.gate button{background:var(--ink);color:var(--paper);border:none;border-radius:3px;
+  padding:14px 22px;font-size:15px;font-family:inherit;cursor:pointer}
+.gate .promise{font-size:12.5px;color:var(--ink-3);line-height:1.65;margin-top:16px;
+  border-top:1px solid var(--rule);padding-top:14px}
+.gate .skip{display:inline-block;margin-top:16px;font-size:13px;color:var(--ink-3);
+  border-bottom:1px solid var(--rule);cursor:pointer;background:none;border-top:none;
+  border-left:none;border-right:none;font-family:inherit;padding:0 0 2px}
+.gate .ok{display:none;font-size:16px;color:var(--green);margin-top:6px}
+
 .cap-box{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:17px 18px 18px}
 .cap-l{font-size:15px;color:var(--ink-2);line-height:1.5;max-width:32em;margin-bottom:13px}
 .cap-f{display:flex;gap:9px;flex-wrap:wrap}
