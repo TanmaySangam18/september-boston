@@ -9,7 +9,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "
 
 const NAV = [
   ["TODAY", ""], ["MOVE IN", "move-in/"], ["SEPTEMBER", "september/"],
-  ["BOSTON", "boston/"], ["EVENTS", "events/"]
+  ["BOSTON", "boston/"], ["EVENTS", "events/"], ["THE PASS", "pass/"]
 ];
 
 const now = new Date();
@@ -105,6 +105,14 @@ ${metaStrip(`<span>${daysToSept > 0 ? daysToSept + " DAYS TO SEPT 1" : "SEPTEMBE
     ${fenway.trashDay ? `<div class="label"><div class="k mono">TRASH</div><div class="v">${esc(fenway.trashDay)}. Out after 5pm the night before.</div></div>` : ""}
     <div class="label"><div class="k mono">STORROW DRIVE</div><div class="v">Clearance drops to 9 feet. Your rental truck is 12. Do not.</div></div>
   </div>
+
+  <div class="sh mono">FROM YOUR STOP <span class="c">MBTA, live</span></div>
+  ${fenway.transit ? `<div class="sched">
+    ${fenway.transit.departures.list.map(d => `<div class="r"><span class="w mono">${esc(d.at)}</span>
+      <div class="b"><div class="t">${esc(d.short ?? d.route)}${d.headsign ? " → " + esc(d.headsign) : ""}</div>
+      <div class="s">${esc(fenway.transit.station.name)}${d.inMinutes != null ? " · " + d.inMinutes + " min" : " · scheduled"}</div></div></div>`).join("")}
+    <div class="r"><span class="w mono">SERVICE</span><div class="b"><div class="t">${fenway.transit.service.normal ? "Normal service" : esc(fenway.transit.service.alerts[0]?.header ?? "Alerts in effect")}</div></div></div>
+  </div>` : `<div class="label"><div class="v">No live departures right now.</div></div>`}
 
   <div class="sh mono">TRUCKS OUT TODAY <span class="c">city schedule</span></div>
   <div class="sched">
@@ -210,11 +218,72 @@ ${metaStrip(`<span>${D.events.length} OPEN EVENTS</span>`)}
 </div>`);
 }
 
+/* ---------- THE PASS ---------- */
+function passPage() {
+  const z = D.zones.find(x => x.transit?.departures?.list?.length) ?? D.zones[0];
+  const t = z.transit;
+  const next = t?.departures?.list?.[0];
+  const rest = (t?.departures?.list ?? []).slice(1, 3);
+  return page("The pass · September in Boston", "THE PASS", `
+${metaStrip(`<span>WALLET</span>`)}
+<div class="wrap">
+  <h1 class="display" style="font-size:clamp(46px,9.5vw,104px)">THE PASS</h1>
+  <p class="sub">The website is where you find out about September. The pass is where you live in it. One card, on your lock screen, that knows your stop.</p>
+
+  <div class="sh mono">WHAT IT SAYS RIGHT NOW <span class="c">real data, this minute</span></div>
+  <div style="max-width:400px">
+    <div class="idc">
+      <div class="k mono">SEPTEMBER IN BOSTON</div>
+      <div class="row mono" style="border-top:none;margin-top:9px;padding-top:0">
+        <div style="flex:1"><div class="k">${esc((z.name || "").toUpperCase())}</div>
+          <div class="v" style="font-size:19px;font-weight:640">${next ? esc((next.short ?? next.route) + (next.headsign ? " → " + next.headsign : "")) : "Your day"}</div></div>
+        <div style="text-align:right"><div class="k">NEXT</div><div class="v" style="font-size:19px;font-weight:640">${next ? esc(next.at) : "—"}</div></div>
+      </div>
+      <div class="row mono">
+        <div><div class="k">TODAY</div><div class="v">${daysToSept > 0 ? daysToSept + " days out" : "Sept " + now.getDate()}</div></div>
+        <div><div class="k">WEATHER</div><div class="v">${D.env?.aqi != null ? "AQI " + D.env.aqi : "—"}</div></div>
+        <div><div class="k">SERVICE</div><div class="v">${t?.service?.normal ? "Normal" : (t?.service?.urgent ? "Alert" : "Delays")}</div></div>
+      </div>
+      <div class="row mono">
+        <div><div class="k">THEN</div><div class="v">${rest.length ? rest.map(d => esc(d.at)).join("  ") : "—"}</div></div>
+        <div><div class="k">FROM</div><div class="v">${esc(t?.station?.name ?? "—")}</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh mono">HOW YOU GET IT</div>
+  <div class="tl">
+    <div class="stop"><div class="d mono">ONE</div><div class="h">Pick your neighbourhood</div>
+      <div class="p">That sets your stop, your street cleaning and your geofences. Nothing else is asked.</div></div>
+    <div class="stop"><div class="d mono">TWO</div><div class="h">Add to Apple Wallet</div>
+      <div class="p">One tap, on Apple's own sheet. No account, no app, no email. A QR or a text link does the same thing.</div></div>
+    <div class="stop"><div class="d mono">THREE</div><div class="h">Done</div>
+      <div class="p">It appears on your lock screen near your stop. Remove it any time and everything stops.</div></div>
+  </div>
+
+  <div class="sh mono">WHEN IT UPDATES <span class="c">and when it deliberately doesn't</span></div>
+  <div class="grid">
+    <div class="label"><div class="k mono">STATIC</div><div class="v">School, neighbourhood, saved route, your deposit dates. Changes only when you change them.</div></div>
+    <div class="label"><div class="k mono">FREQUENT</div><div class="v">Next departure, weather, today's events. Refreshed quietly, and only pushed if it has been a while.</div></div>
+    <div class="label"><div class="k mono">URGENT</div><div class="v">Suspensions, shuttles, station closures. These push straight away, because that is the whole point.</div></div>
+  </div>
+  <p class="sub" style="font-size:15px;max-width:36em">A pass that pings every time a train moves is a notification stream, not a companion. The tiering exists so it stays worth keeping.</p>
+
+  <div class="sh mono">WHAT IS ACTUALLY BUILT</div>
+  <div class="sched">
+    <div class="r"><span class="w mono">DONE</span><div class="b"><div class="t">Live departures and alerts for all 12 neighbourhoods</div><div class="s">MBTA v3, keyless, one alerts call filtered locally</div></div></div>
+    <div class="r"><span class="w mono">DONE</span><div class="b"><div class="t">The pass payload, front and back</div><div class="s">Header, primary, six fields, nine back rows, geofences, QR</div></div></div>
+    <div class="r"><span class="w mono">DONE</span><div class="b"><div class="t">The three-tier push classifier</div><div class="s">Urgent pushes immediately; frequent is throttled; nothing pushes when nothing changed</div></div></div>
+    <div class="r"><span class="w mono">NEEDED</span><div class="b"><div class="t">An Apple signing certificate</div><div class="s">$99 a year. Without it a pass cannot be signed, and an unsigned pass will not install. That is the only thing missing.</div></div></div>
+  </div>
+</div>`);
+}
+
 mkdirSync(out, { recursive: true });
 writeFileSync(new URL(".nojekyll", out), "");
 writeFileSync(new URL("index.html", out), today());
-for (const [dir, fn] of [["move-in", moveIn], ["september", september], ["boston", boston], ["events", events]]) {
+for (const [dir, fn] of [["move-in", moveIn], ["september", september], ["boston", boston], ["events", events], ["pass", passPage]]) {
   mkdirSync(new URL(dir + "/", out), { recursive: true });
   writeFileSync(new URL(dir + "/index.html", out), fn());
 }
-console.log("built 5 pages → docs/");
+console.log("built 6 pages → docs/");

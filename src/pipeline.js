@@ -5,6 +5,7 @@ import { plannedClosures } from "./sources/mbta.js";
 import { trucksToday } from "./sources/foodtrucks.js";
 import { campusEvents } from "./sources/events.js";
 import { fetchEnv } from "./sources/env.js";
+import { departures, allAlerts, statusForStop } from "./sources/transit.js";
 
 const settle = p => p.then(v => v).catch(e => { console.warn("  ! " + e.message); return null; });
 
@@ -18,6 +19,7 @@ const run = async () => {
   const t0 = Date.now();
   const zones = JSON.parse(readFileSync(new URL("../data/zones.json", import.meta.url)));
   console.log("fetching");
+  const alerts = await allAlerts().catch(e => { console.warn("  ! alerts: " + e.message); return []; });
   const [trash, closures, trucks, events, env] = await Promise.all([
     settle(trashDays()), settle(plannedClosures()), settle(trucksToday()),
     settle(campusEvents({ days: 14, limit: 60 })), settle(fetchEnv())
@@ -26,11 +28,26 @@ const run = async () => {
 
   const today = new Date();
   const built = [];
+  const pause = ms => new Promise(r => setTimeout(r, ms));
   for (const z of zones) {
     const sweep = await nextSweepDay(z.dist, today).catch(() => null);
+
+    // Stations never move, so they are baked into zones.json. Only the live
+    // parts are fetched, and keyless MBTA allows ~20 requests a minute.
+    let transit = null;
+    if (z.stopId) {
+      try {
+        const dep = await departures(z.stopId, 3);
+        const routes = [...new Set(dep.list.map(d => d.short).filter(Boolean))];
+        const svc = statusForStop(alerts, z.stopId, routes);
+        transit = { station: { id: z.stopId, name: z.stopName }, departures: dep, service: svc };
+      } catch (e) { console.warn(`  ! transit ${z.name}: ${e.message}`); }
+      await pause(1500);
+    }
     built.push({
       zone: z.id, name: z.name, lat: z.lat, lon: z.lon,
       trashDay: trash?.[z.trashHood]?.day ?? null,
+      transit,
       sweep: sweep ? {
         offsetDays: sweep.offsetDays,
         dow: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][sweep.date.getDay()],
@@ -39,6 +56,8 @@ const run = async () => {
         sides: [...new Set(sweep.streets.map(s => s.side || "both"))]
       } : null
     });
+    const t = transit;
+    console.log(`  ${z.name.padEnd(18)} ${t?.station?.name ?? "no stop"} · ${t?.departures?.list?.length ?? 0} dep · ${t?.service ? (t.service.normal ? "normal" : (t.service.urgent ? "URGENT" : "alerts")) : "-"}`);
   }
 
   mkdirSync(new URL("../out/", import.meta.url), { recursive: true });
