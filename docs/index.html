@@ -262,6 +262,8 @@ h1.display{font-size:clamp(64px,15vw,168px);line-height:.86;letter-spacing:-.055
 <script>
 (function(){
   var KEY="sib.gate", g=document.getElementById("gate");
+  // Channels where a wall costs more than it collects arrive with ?nogate=1
+  if(new URLSearchParams(location.search).get("nogate")==="1"){ localStorage.setItem(KEY,"1"); }
   if(localStorage.getItem(KEY)){ g.remove(); return; }
   document.documentElement.style.overflow="hidden";
   requestAnimationFrame(function(){ g.classList.add("on"); });
