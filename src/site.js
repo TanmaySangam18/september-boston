@@ -33,8 +33,8 @@ document.querySelector(".cap-f").addEventListener("submit", () => {
 
 const NAV = [
   ["TODAY", ""], ["MOVE IN", "move-in/"], ["SEPTEMBER", "september/"],
-  ["BOSTON", "boston/"], ["EVENTS", "events/"], ["THE PASS", "pass/"]
-];
+  ["BOSTON", "boston/"], ["EVENTS", "events/"]
+];  // /pass/ stays reachable by URL but is out of the public nav until it is signed
 
 const now = new Date();
 const ET = d => new Date(d).toLocaleString("en-US", { timeZone: "America/New_York" });
