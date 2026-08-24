@@ -1,0 +1,177 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f6f3ec">
+<title>All of September · Boston</title>
+<meta name="description" content="September in Boston. The month the city starts over.">
+<meta property="og:title" content="All of September · Boston">
+<meta property="og:description" content="Boston starts over every September.">
+<style>
+:root{
+  --paper:#f6f3ec;        /* orientation packet */
+  --paper-2:#efebe1;      /* folded map */
+  --ink:#1c1e22;          /* graphite */
+  --ink-2:#4a4e55;
+  --ink-3:#84888f;
+  --rule:#ddd7ca;
+  --brick:#9a4a37;        /* Boston brick, used sparingly */
+  --navy:#1b2a41;         /* deep navy */
+  --denim:#3e5c76;        /* transit blue */
+  --green:#4f6f52;        /* muted campus green */
+  --highlight:#f2e06b;    /* highlighter, not orange */
+  --card:#fffdf8;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  line-height:1.5;font-size:16px}
+a{color:inherit;text-decoration:none}
+.mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  font-variant-numeric:tabular-nums;letter-spacing:.02em}
+
+/* transit-signage nav — a directory strip, not a website nav */
+.strip{border-bottom:1px solid var(--rule);background:var(--paper);
+  position:sticky;top:0;z-index:20}
+.strip .in{max-width:1080px;margin:0 auto;padding:0 22px;display:flex;align-items:stretch;
+  overflow-x:auto;scrollbar-width:none}
+.strip .in::-webkit-scrollbar{display:none}
+.strip a{font-size:11px;letter-spacing:.16em;color:var(--ink-3);padding:15px 0;margin-right:26px;
+  white-space:nowrap;border-bottom:2px solid transparent;transition:color .18s,border-color .18s}
+.strip a.on{color:var(--ink);border-bottom-color:var(--brick)}
+.strip a:hover{color:var(--ink)}
+.bullet{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;
+  vertical-align:1px;background:var(--denim)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.rule{height:1px;background:var(--rule);margin:0}
+
+/* metadata strip — timestamps, coordinates, route numbers */
+.meta{display:flex;flex-wrap:wrap;gap:0 26px;padding:13px 0;font-size:10.5px;
+  letter-spacing:.13em;color:var(--ink-3);border-bottom:1px solid var(--rule)}
+
+h1.display{font-size:clamp(64px,15vw,168px);line-height:.86;letter-spacing:-.055em;
+  font-weight:760;margin:38px 0 0}
+.sub{font-size:clamp(17px,2.4vw,23px);color:var(--ink-2);max-width:22em;
+  margin:20px 0 0;line-height:1.42}
+
+.sh{font-size:10.5px;letter-spacing:.17em;color:var(--ink-3);
+  padding:34px 0 13px;display:flex;align-items:baseline}
+.sh .c{margin-left:auto;letter-spacing:.04em;text-transform:none;font-size:11.5px}
+
+/* a moment: timestamp + one observed line */
+.moments{border-top:1px solid var(--rule)}
+.moment{display:flex;gap:20px;padding:11px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.moment .t{font-size:11.5px;color:var(--ink-3);width:78px;flex:0 0 78px}
+.moment .l{font-size:16px;color:var(--ink)}
+
+/* timeline — the month as a platform you walk down */
+.tl{border-left:2px solid var(--rule);margin:8px 0 0 5px;padding-left:0}
+.tl .stop{position:relative;padding:0 0 26px 26px}
+.tl .stop:before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;
+  border-radius:50%;background:var(--paper);border:2px solid var(--denim)}
+.tl .stop.now:before{background:var(--brick);border-color:var(--brick)}
+.tl .d{font-size:11px;letter-spacing:.14em;color:var(--ink-3)}
+.tl .h{font-size:20px;font-weight:640;letter-spacing:-.02em;margin-top:3px}
+.tl .p{font-size:14.5px;color:var(--ink-2);margin-top:5px;max-width:34em;line-height:1.5}
+
+/* artifacts */
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.art{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:15px 16px 17px;
+  transition:transform .16s ease,box-shadow .16s ease}
+.art:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(28,30,34,.07)}
+.art .k{font-size:9.5px;letter-spacing:.15em;color:var(--ink-3)}
+.art .n{font-size:17px;font-weight:600;margin-top:7px;line-height:1.28;letter-spacing:-.01em}
+.art .s{font-size:13.5px;color:var(--ink-2);margin-top:6px;line-height:1.5}
+.art .f{font-size:10px;letter-spacing:.12em;color:var(--green);margin-top:10px}
+
+/* flyer — campus bulletin board */
+.flyer{background:var(--card);border:1px solid var(--rule);padding:15px 16px 16px;
+  border-radius:2px;position:relative}
+.flyer:before{content:"";position:absolute;top:-1px;left:16px;right:16px;height:3px;background:var(--highlight)}
+.flyer .when{font-size:10.5px;letter-spacing:.13em;color:var(--brick)}
+.flyer .t{font-size:16px;font-weight:600;margin-top:8px;line-height:1.3}
+.flyer .w{font-size:13px;color:var(--ink-2);margin-top:5px}
+.flyer .open{font-size:9.5px;letter-spacing:.12em;color:var(--green);margin-top:9px}
+
+/* label — moving box inventory */
+.label{background:var(--paper-2);border:1px dashed var(--ink-3);padding:14px 15px;border-radius:2px}
+.label .k{font-size:9.5px;letter-spacing:.15em;color:var(--ink-3)}
+.label .v{font-size:15px;margin-top:5px;line-height:1.45}
+
+/* schedule — printed class schedule */
+.sched{background:var(--card);border:1px solid var(--rule)}
+.sched .r{display:flex;gap:16px;padding:12px 15px;border-bottom:1px solid var(--rule);align-items:baseline}
+.sched .r:last-child{border-bottom:none}
+.sched .r .w{font-size:11.5px;color:var(--ink-3);width:74px;flex:0 0 74px}
+.sched .r .b{flex:1}
+.sched .r .t{font-size:15px;line-height:1.35}
+.sched .r .s{font-size:12.5px;color:var(--ink-2);margin-top:2px}
+
+/* id card */
+.idc{background:var(--navy);color:#eef1f5;border-radius:8px;padding:16px 17px 18px}
+.idc .k{font-size:9px;letter-spacing:.16em;color:#8fa3bb}
+.idc .n{font-size:19px;font-weight:640;margin-top:6px;letter-spacing:-.01em}
+.idc .row{display:flex;gap:18px;margin-top:14px;border-top:1px solid #2e4159;padding-top:12px}
+.idc .row div .k{font-size:8.5px}
+.idc .row div .v{font-size:14px;margin-top:3px}
+
+.ft{border-top:1px solid var(--rule);margin-top:44px;padding:20px 0 60px;
+  font-size:11.5px;color:var(--ink-3);line-height:1.85}
+</style></head><body>
+<div class="strip"><div class="in mono"><a class="" href="/september-boston/">TODAY</a><a class="" href="/september-boston/move-in/">MOVE IN</a><a class="on" href="/september-boston/september/"><span class="bullet"></span>SEPTEMBER</a><a class="" href="/september-boston/boston/">BOSTON</a><a class="" href="/september-boston/events/">EVENTS</a></div></div>
+
+<div class="wrap"><div class="meta mono">
+<span>BOSTON, MA</span><span>42.3601°N 71.0589°W</span>
+<span>AUG 24</span>
+<span>SUNSET 19:31</span>
+</div></div>
+<div class="wrap">
+  <h1 class="display" style="font-size:clamp(52px,11vw,124px)">THE MONTH</h1>
+  <p class="sub">Thirty days, in order. Walk down it.</p>
+  <div class="sh mono">SEPTEMBER 2026</div>
+  <div class="tl">
+    <div class="stop">
+      <div class="d mono">SEPT 01</div>
+      <div class="h">Arrival</div>
+      <div class="p">Leases turn over. 60 to 70 percent of the city changes address on one day. U-Hauls double-parked on every street in Allston.</div></div><div class="stop">
+      <div class="d mono">SEPT 02</div>
+      <div class="h">The first morning</div>
+      <div class="p">You wake up in a room with no curtains and no idea where the nearest coffee is.</div></div><div class="stop">
+      <div class="d mono">SEPT 03</div>
+      <div class="h">Move-in</div>
+      <div class="p">Dorm elevators. Parents holding doors. Mini fridges in hallways. Cardboard everywhere.</div></div><div class="stop">
+      <div class="d mono">SEPT 05</div>
+      <div class="h">Orientation</div>
+      <div class="p">A lanyard, a tote bag, and eleven names you will not remember.</div></div><div class="stop">
+      <div class="d mono">SEPT 06</div>
+      <div class="h">Learning the T</div>
+      <div class="p">You take the Green Line the wrong direction. Everyone does. Twice.</div></div><div class="stop">
+      <div class="d mono">SEPT 08</div>
+      <div class="h">First classes</div>
+      <div class="p">Wrong building at 9.04. Right building at 9.17. Sit near the back.</div></div><div class="stop">
+      <div class="d mono">SEPT 10</div>
+      <div class="h">Statement of Condition due</div>
+      <div class="p">If you moved in on the 1st, your landlord legally owed you a signed condition statement by today.</div></div><div class="stop">
+      <div class="d mono">SEPT 12</div>
+      <div class="h">First weekend</div>
+      <div class="p">Someone's roommate knows someone. You end up in Cambridge at midnight.</div></div><div class="stop">
+      <div class="d mono">SEPT 15</div>
+      <div class="h">New routines</div>
+      <div class="p">You have a coffee place. You have a walk. You stop looking at the map.</div></div><div class="stop">
+      <div class="d mono">SEPT 20</div>
+      <div class="h">Starting to feel like home</div>
+      <div class="p">You give someone directions on Huntington and you are right.</div></div><div class="stop">
+      <div class="d mono">SEPT 26</div>
+      <div class="h">Contest window closes</div>
+      <div class="p">Fifteen days to dispute the condition statement. Today is the last of them.</div></div><div class="stop">
+      <div class="d mono">SEPT 30</div>
+      <div class="h">September is over</div>
+      <div class="p">The city stops feeling new. That is the whole point of it.</div></div>
+  </div>
+</div>
+<div class="wrap"><div class="ft mono">
+UPDATED 8/24/2026, 2:24:39 PM ET · REBUILT THREE TIMES A DAY · NO API KEYS<br>
+CITY OF BOSTON OPEN DATA · MBTA V3 · NORTHEASTERN AND MIT PUBLIC CALENDARS · OPEN-METEO<br>
+DEPOSIT DATES COMPUTED FROM MASSACHUSETTS LAW — SEE MASS.GOV. INFORMATION, NOT LEGAL ADVICE.<br>
+OPEN SOURCE · NOTHING ABOUT YOU LEAVES YOUR PHONE
+</div></div></body></html>

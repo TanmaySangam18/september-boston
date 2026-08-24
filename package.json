@@ -1,0 +1,2 @@
+{ "name":"september-boston","version":"0.1.0","private":true,"type":"module",
+  "scripts":{"run":"node src/pipeline.js","site":"node src/site.js"} }

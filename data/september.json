@@ -1,0 +1,14 @@
+[
+  { "day": 1,  "label": "Arrival",            "note": "Leases turn over. 60 to 70 percent of the city changes address on one day. U-Hauls double-parked on every street in Allston." },
+  { "day": 2,  "label": "The first morning",  "note": "You wake up in a room with no curtains and no idea where the nearest coffee is." },
+  { "day": 3,  "label": "Move-in",            "note": "Dorm elevators. Parents holding doors. Mini fridges in hallways. Cardboard everywhere." },
+  { "day": 5,  "label": "Orientation",        "note": "A lanyard, a tote bag, and eleven names you will not remember." },
+  { "day": 6,  "label": "Learning the T",     "note": "You take the Green Line the wrong direction. Everyone does. Twice." },
+  { "day": 8,  "label": "First classes",      "note": "Wrong building at 9.04. Right building at 9.17. Sit near the back." },
+  { "day": 10, "label": "Statement of Condition due", "note": "If you moved in on the 1st, your landlord legally owed you a signed condition statement by today." },
+  { "day": 12, "label": "First weekend",      "note": "Someone's roommate knows someone. You end up in Cambridge at midnight." },
+  { "day": 15, "label": "New routines",       "note": "You have a coffee place. You have a walk. You stop looking at the map." },
+  { "day": 20, "label": "Starting to feel like home", "note": "You give someone directions on Huntington and you are right." },
+  { "day": 26, "label": "Contest window closes", "note": "Fifteen days to dispute the condition statement. Today is the last of them." },
+  { "day": 30, "label": "September is over",  "note": "The city stops feeling new. That is the whole point of it." }
+]

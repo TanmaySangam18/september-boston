@@ -1,0 +1,14 @@
+[
+  { "id": "fenway",      "name": "Fenway/Kenmore",   "dist": "Fenway/Kenmore",   "trashHood": "Boston",        "lat": 42.3467, "lon": -71.0972 },
+  { "id": "backbay",     "name": "Back Bay",         "dist": "Back Bay",         "trashHood": "Boston",        "lat": 42.3503, "lon": -71.0810 },
+  { "id": "southend",    "name": "South End",        "dist": "South End",        "trashHood": "Boston",        "lat": 42.3388, "lon": -71.0765 },
+  { "id": "northend",    "name": "North End",        "dist": "North End",        "trashHood": "Boston",        "lat": 42.3647, "lon": -71.0542 },
+  { "id": "allston",     "name": "Allston/Brighton", "dist": "Allston/Brighton", "trashHood": "Allston",       "lat": 42.3539, "lon": -71.1337 },
+  { "id": "jp",          "name": "Jamaica Plain",    "dist": "Jamaica Plain",    "trashHood": "Jamaica Plain", "lat": 42.3097, "lon": -71.1151 },
+  { "id": "southie",     "name": "South Boston",     "dist": "South Boston",     "trashHood": "South Boston",  "lat": 42.3335, "lon": -71.0495 },
+  { "id": "missionhill", "name": "Mission Hill",     "dist": "Mission Hill",     "trashHood": "Mission Hill",  "lat": 42.3299, "lon": -71.1030 },
+  { "id": "roxbury",     "name": "Roxbury",          "dist": "Roxbury",          "trashHood": "Roxbury",       "lat": 42.3152, "lon": -71.0914 },
+  { "id": "ndorchester", "name": "North Dorchester", "dist": "North Dorchester", "trashHood": "Dorchester",    "lat": 42.3210, "lon": -71.0640 },
+  { "id": "charlestown", "name": "Charlestown",      "dist": "Charlestown",      "trashHood": "Charlestown",   "lat": 42.3782, "lon": -71.0602 },
+  { "id": "eastboston",  "name": "East Boston",      "dist": "East Boston",      "trashHood": "East Boston",   "lat": 42.3702, "lon": -71.0389 }
+]
