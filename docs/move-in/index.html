@@ -115,6 +115,17 @@ h1.display{font-size:clamp(64px,15vw,168px);line-height:.86;letter-spacing:-.055
 .idc .row div .k{font-size:8.5px}
 .idc .row div .v{font-size:14px;margin-top:3px}
 
+.cap-box{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:17px 18px 18px}
+.cap-l{font-size:15px;color:var(--ink-2);line-height:1.5;max-width:32em;margin-bottom:13px}
+.cap-f{display:flex;gap:9px;flex-wrap:wrap}
+.cap-f input{flex:1;min-width:200px;border:1px solid var(--rule);background:var(--paper);
+  border-radius:3px;padding:12px 13px;font-size:16px;font-family:inherit;color:var(--ink);outline:none}
+.cap-f input:focus{border-color:var(--ink-3)}
+.cap-f button{background:var(--ink);color:var(--paper);border:none;border-radius:3px;
+  padding:12px 20px;font-size:15px;font-family:inherit;cursor:pointer}
+.cap-f button:active{transform:scale(.98)}
+.cap-ok{display:none;font-size:15px;color:var(--green)}
+
 .ft{border-top:1px solid var(--rule);margin-top:44px;padding:20px 0 60px;
   font-size:11.5px;color:var(--ink-3);line-height:1.85}
 
@@ -242,6 +253,26 @@ h1.display{font-size:clamp(64px,15vw,168px);line-height:.86;letter-spacing:-.055
     <div class="label"><div class="k mono">PERMIT WINDOW</div><div class="v">Online closes 15 days out. Under that, City Hall in person, 2nd floor, at least 3 days ahead. $69 for two spaces, $109 with meters.</div></div>
     <div class="label"><div class="k mono">SIGNS</div><div class="v">Posted 48 hours before, or the space isn't held.</div></div>
   </div>
+
+  
+<div class="sh mono">WHEN THE PASS IS READY</div>
+<div class="cap-box">
+  <p class="cap-l">This is the web version. The Wallet card &mdash; your stop, your street, on the lock screen &mdash; is close. Leave an email and I&rsquo;ll tell you once. Nothing else, ever.</p>
+  <form class="cap-f" action="https://docs.google.com/forms/d/e/1FAIpQLSc5A1nMSW-ZKIGalDBZIRVeb50egwjisEK-0FtPGDUGHuqBQw/formResponse" method="POST" target="cap-sink" autocomplete="on">
+    <input type="email" name="entry.11513074" placeholder="you@school.edu" required aria-label="Email">
+    <button type="submit">Tell me</button>
+  </form>
+  <p class="cap-ok" id="cap-ok">Got it. One email, when it's ready.</p>
+</div>
+<iframe name="cap-sink" style="display:none" title="submit"></iframe>
+<script>
+document.querySelector(".cap-f").addEventListener("submit", () => {
+  setTimeout(() => {
+    document.querySelector(".cap-f").style.display = "none";
+    document.getElementById("cap-ok").style.display = "block";
+  }, 120);
+});
+</script>
 
   <div class="sh mono">WHERE YOU WILL GET TICKETED <span class="c">street cleaning, by neighbourhood</span></div>
   <div class="sched">

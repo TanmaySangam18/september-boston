@@ -8,6 +8,29 @@ const out = new URL("../docs/", import.meta.url);
 const BASE = "/september-boston";
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
+const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSc5A1nMSW-ZKIGalDBZIRVeb50egwjisEK-0FtPGDUGHuqBQw/formResponse";
+const FORM_FIELD = "entry.11513074";
+
+const capture = (head, line) => `
+<div class="sh mono">${head}</div>
+<div class="cap-box">
+  <p class="cap-l">${line}</p>
+  <form class="cap-f" action="${FORM_ACTION}" method="POST" target="cap-sink" autocomplete="on">
+    <input type="email" name="${FORM_FIELD}" placeholder="you@school.edu" required aria-label="Email">
+    <button type="submit">Tell me</button>
+  </form>
+  <p class="cap-ok" id="cap-ok">Got it. One email, when it's ready.</p>
+</div>
+<iframe name="cap-sink" style="display:none" title="submit"></iframe>
+<script>
+document.querySelector(".cap-f").addEventListener("submit", () => {
+  setTimeout(() => {
+    document.querySelector(".cap-f").style.display = "none";
+    document.getElementById("cap-ok").style.display = "block";
+  }, 120);
+});
+</script>`;
+
 const NAV = [
   ["TODAY", ""], ["MOVE IN", "move-in/"], ["SEPTEMBER", "september/"],
   ["BOSTON", "boston/"], ["EVENTS", "events/"], ["THE PASS", "pass/"]
@@ -150,6 +173,8 @@ ${metaStrip(`<span>SEPT 01</span>`)}
     <div class="label"><div class="k mono">PERMIT WINDOW</div><div class="v">Online closes 15 days out. Under that, City Hall in person, 2nd floor, at least 3 days ahead. $69 for two spaces, $109 with meters.</div></div>
     <div class="label"><div class="k mono">SIGNS</div><div class="v">Posted 48 hours before, or the space isn't held.</div></div>
   </div>
+
+  ${capture("WHEN THE PASS IS READY", "This is the web version. The Wallet card &mdash; your stop, your street, on the lock screen &mdash; is close. Leave an email and I&rsquo;ll tell you once. Nothing else, ever.")}
 
   <div class="sh mono">WHERE YOU WILL GET TICKETED <span class="c">street cleaning, by neighbourhood</span></div>
   <div class="sched">

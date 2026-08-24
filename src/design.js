@@ -110,6 +110,17 @@ h1.display{font-size:clamp(64px,15vw,168px);line-height:.86;letter-spacing:-.055
 .idc .row div .k{font-size:8.5px}
 .idc .row div .v{font-size:14px;margin-top:3px}
 
+.cap-box{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:17px 18px 18px}
+.cap-l{font-size:15px;color:var(--ink-2);line-height:1.5;max-width:32em;margin-bottom:13px}
+.cap-f{display:flex;gap:9px;flex-wrap:wrap}
+.cap-f input{flex:1;min-width:200px;border:1px solid var(--rule);background:var(--paper);
+  border-radius:3px;padding:12px 13px;font-size:16px;font-family:inherit;color:var(--ink);outline:none}
+.cap-f input:focus{border-color:var(--ink-3)}
+.cap-f button{background:var(--ink);color:var(--paper);border:none;border-radius:3px;
+  padding:12px 20px;font-size:15px;font-family:inherit;cursor:pointer}
+.cap-f button:active{transform:scale(.98)}
+.cap-ok{display:none;font-size:15px;color:var(--green)}
+
 .ft{border-top:1px solid var(--rule);margin-top:44px;padding:20px 0 60px;
   font-size:11.5px;color:var(--ink-3);line-height:1.85}
 `;
