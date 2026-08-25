@@ -19,6 +19,20 @@ jobs:
         with: { node-version: "22" }
       - run: node src/pipeline.js
       - run: node src/site.js
+
+      # same data, root-path variant, pushed to the public URL
+      - name: Publish to Vercel
+        env:
+          BASE_PATH: ""
+          OUT_DIR: "../vercel-build"
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          node src/site.js
+          printf '{ "cleanUrls": true, "trailingSlash": true }' > vercel-build/vercel.json
+          npx --yes vercel@latest deploy vercel-build --prod --yes \
+            --token "${{ secrets.VERCEL_TOKEN }}" --archive=tgz
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with: { path: docs }

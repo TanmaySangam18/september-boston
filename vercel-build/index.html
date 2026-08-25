@@ -1,0 +1,392 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f6f3ec">
+<title>September in Boston</title>
+<meta name="description" content="September in Boston. The month the city starts over.">
+<meta property="og:title" content="September in Boston">
+<meta property="og:description" content="Boston starts over every September.">
+<style>
+:root{
+  --paper:#f6f3ec;        /* orientation packet */
+  --paper-2:#efebe1;      /* folded map */
+  --ink:#1c1e22;          /* graphite */
+  --ink-2:#4a4e55;
+  --ink-3:#84888f;
+  --rule:#ddd7ca;
+  --brick:#9a4a37;        /* Boston brick, used sparingly */
+  --navy:#1b2a41;         /* deep navy */
+  --denim:#3e5c76;        /* transit blue */
+  --green:#4f6f52;        /* muted campus green */
+  --highlight:#f2e06b;    /* highlighter, not orange */
+  --card:#fffdf8;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  line-height:1.5;font-size:16px}
+a{color:inherit;text-decoration:none}
+.mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  font-variant-numeric:tabular-nums;letter-spacing:.02em}
+
+/* transit-signage nav — a directory strip, not a website nav */
+.strip{border-bottom:1px solid var(--rule);background:var(--paper);
+  position:sticky;top:0;z-index:20}
+.strip .in{max-width:1080px;margin:0 auto;padding:0 22px;display:flex;align-items:stretch;
+  overflow-x:auto;scrollbar-width:none}
+.strip .in::-webkit-scrollbar{display:none}
+.strip a{font-size:11px;letter-spacing:.16em;color:var(--ink-3);padding:15px 0;margin-right:26px;
+  white-space:nowrap;border-bottom:2px solid transparent;transition:color .18s,border-color .18s}
+.strip a.on{color:var(--ink);border-bottom-color:var(--brick)}
+.strip a:hover{color:var(--ink)}
+.bullet{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;
+  vertical-align:1px;background:var(--denim)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.rule{height:1px;background:var(--rule);margin:0}
+
+/* metadata strip — timestamps, coordinates, route numbers */
+.meta{display:flex;flex-wrap:wrap;gap:0 26px;padding:13px 0;font-size:10.5px;
+  letter-spacing:.13em;color:var(--ink-3);border-bottom:1px solid var(--rule)}
+
+h1.display{font-size:clamp(64px,15vw,168px);line-height:.86;letter-spacing:-.055em;
+  font-weight:760;margin:38px 0 0}
+.sub{font-size:clamp(17px,2.4vw,23px);color:var(--ink-2);max-width:22em;
+  margin:20px 0 0;line-height:1.42}
+
+.sh{font-size:10.5px;letter-spacing:.17em;color:var(--ink-3);
+  padding:34px 0 13px;display:flex;align-items:baseline}
+.sh .c{margin-left:auto;letter-spacing:.04em;text-transform:none;font-size:11.5px}
+
+/* a moment: timestamp + one observed line */
+.moments{border-top:1px solid var(--rule)}
+.moment{display:flex;gap:20px;padding:11px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.moment .t{font-size:11.5px;color:var(--ink-3);width:78px;flex:0 0 78px}
+.moment .l{font-size:16px;color:var(--ink)}
+
+/* timeline — the month as a platform you walk down */
+.tl{border-left:2px solid var(--rule);margin:8px 0 0 5px;padding-left:0}
+.tl .stop{position:relative;padding:0 0 26px 26px}
+.tl .stop:before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;
+  border-radius:50%;background:var(--paper);border:2px solid var(--denim)}
+.tl .stop.now:before{background:var(--brick);border-color:var(--brick)}
+.tl .d{font-size:11px;letter-spacing:.14em;color:var(--ink-3)}
+.tl .h{font-size:20px;font-weight:640;letter-spacing:-.02em;margin-top:3px}
+.tl .p{font-size:14.5px;color:var(--ink-2);margin-top:5px;max-width:34em;line-height:1.5}
+
+/* artifacts */
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.art{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:15px 16px 17px;
+  transition:transform .16s ease,box-shadow .16s ease}
+.art:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(28,30,34,.07)}
+.art .k{font-size:9.5px;letter-spacing:.15em;color:var(--ink-3)}
+.art .n{font-size:17px;font-weight:600;margin-top:7px;line-height:1.28;letter-spacing:-.01em}
+.art .s{font-size:13.5px;color:var(--ink-2);margin-top:6px;line-height:1.5}
+.art .f{font-size:10px;letter-spacing:.12em;color:var(--green);margin-top:10px}
+
+/* flyer — campus bulletin board */
+.flyer{background:var(--card);border:1px solid var(--rule);padding:15px 16px 16px;
+  border-radius:2px;position:relative}
+.flyer:before{content:"";position:absolute;top:-1px;left:16px;right:16px;height:3px;background:var(--highlight)}
+.flyer .when{font-size:10.5px;letter-spacing:.13em;color:var(--brick)}
+.flyer .t{font-size:16px;font-weight:600;margin-top:8px;line-height:1.3}
+.flyer .w{font-size:13px;color:var(--ink-2);margin-top:5px}
+.flyer .open{font-size:9.5px;letter-spacing:.12em;color:var(--green);margin-top:9px}
+
+/* label — moving box inventory */
+.label{background:var(--paper-2);border:1px dashed var(--ink-3);padding:14px 15px;border-radius:2px}
+.label .k{font-size:9.5px;letter-spacing:.15em;color:var(--ink-3)}
+.label .v{font-size:15px;margin-top:5px;line-height:1.45}
+
+/* schedule — printed class schedule */
+.sched{background:var(--card);border:1px solid var(--rule)}
+.sched .r{display:flex;gap:16px;padding:12px 15px;border-bottom:1px solid var(--rule);align-items:baseline}
+.sched .r:last-child{border-bottom:none}
+.sched .r .w{font-size:11.5px;color:var(--ink-3);width:74px;flex:0 0 74px}
+.sched .r .b{flex:1}
+.sched .r .t{font-size:15px;line-height:1.35}
+.sched .r .s{font-size:12.5px;color:var(--ink-2);margin-top:2px}
+
+/* id card */
+.idc{background:var(--navy);color:#eef1f5;border-radius:8px;padding:16px 17px 18px}
+.idc .k{font-size:9px;letter-spacing:.16em;color:#8fa3bb}
+.idc .n{font-size:19px;font-weight:640;margin-top:6px;letter-spacing:-.01em}
+.idc .row{display:flex;gap:18px;margin-top:14px;border-top:1px solid #2e4159;padding-top:12px}
+.idc .row div .k{font-size:8.5px}
+.idc .row div .v{font-size:14px;margin-top:3px}
+
+/* first-visit gate */
+.gate{position:fixed;inset:0;z-index:100;background:var(--paper);display:flex;
+  align-items:center;justify-content:center;padding:26px;
+  opacity:0;pointer-events:none;transition:opacity .32s ease}
+.gate.on{opacity:1;pointer-events:auto}
+.gate .in{max-width:470px;width:100%}
+.gate .tag{font-size:10.5px;letter-spacing:.17em;color:var(--ink-3);margin-bottom:16px}
+.gate h2{font-size:clamp(38px,8vw,62px);line-height:.94;letter-spacing:-.045em;font-weight:760;margin-bottom:16px}
+.gate p{font-size:16px;color:var(--ink-2);line-height:1.55;margin-bottom:20px}
+.gate form{display:flex;gap:9px;flex-wrap:wrap}
+.gate input{flex:1;min-width:210px;border:1px solid var(--rule);background:var(--card);
+  border-radius:3px;padding:14px 14px;font-size:16px;font-family:inherit;color:var(--ink);outline:none}
+.gate input:focus{border-color:var(--ink)}
+.gate button{background:var(--ink);color:var(--paper);border:none;border-radius:3px;
+  padding:14px 22px;font-size:15px;font-family:inherit;cursor:pointer}
+.gate .promise{font-size:12.5px;color:var(--ink-3);line-height:1.65;margin-top:16px;
+  border-top:1px solid var(--rule);padding-top:14px}
+.gate .skip{display:inline-block;margin-top:16px;font-size:13px;color:var(--ink-3);
+  border-bottom:1px solid var(--rule);cursor:pointer;background:none;border-top:none;
+  border-left:none;border-right:none;font-family:inherit;padding:0 0 2px}
+.gate .ok{display:none;font-size:16px;color:var(--green);margin-top:6px}
+
+.cap-box{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:17px 18px 18px}
+.cap-l{font-size:15px;color:var(--ink-2);line-height:1.5;max-width:32em;margin-bottom:13px}
+.cap-f{display:flex;gap:9px;flex-wrap:wrap}
+.cap-f input{flex:1;min-width:200px;border:1px solid var(--rule);background:var(--paper);
+  border-radius:3px;padding:12px 13px;font-size:16px;font-family:inherit;color:var(--ink);outline:none}
+.cap-f input:focus{border-color:var(--ink-3)}
+.cap-f button{background:var(--ink);color:var(--paper);border:none;border-radius:3px;
+  padding:12px 20px;font-size:15px;font-family:inherit;cursor:pointer}
+.cap-f button:active{transform:scale(.98)}
+.cap-ok{display:none;font-size:15px;color:var(--green)}
+
+.ft{border-top:1px solid var(--rule);margin-top:44px;padding:20px 0 60px;
+  font-size:11.5px;color:var(--ink-3);line-height:1.85}
+
+.stage{max-width:1080px;margin:0 auto;padding:0 22px}
+.step{border-top:1px solid var(--rule);padding:30px 0}
+.step .no{font-size:10.5px;letter-spacing:.16em;color:var(--ink-3)}
+.step h2{font-size:clamp(26px,4.4vw,40px);letter-spacing:-.03em;font-weight:700;margin:9px 0 8px;line-height:1.1}
+.step p.k{font-size:15.5px;color:var(--ink-2);max-width:34em;line-height:1.55}
+
+.picks{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-top:20px}
+.pick{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:13px 14px}
+.pick label{display:block;font-size:9.5px;letter-spacing:.15em;color:var(--ink-3);margin-bottom:7px}
+.pick select{width:100%;border:none;background:transparent;font-size:16px;color:var(--ink);
+  font-family:inherit;-webkit-appearance:none;appearance:none;outline:none;cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);
+  background-position:calc(100% - 9px) 9px,calc(100% - 4px) 9px;background-size:5px 5px;background-repeat:no-repeat;padding-right:20px}
+
+.addwrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:22px}
+.addbtn{display:inline-flex;align-items:center;gap:10px;background:#000;color:#fff;border:none;
+  border-radius:9px;padding:12px 20px;font-family:inherit;font-size:15px;cursor:pointer;
+  transition:transform .14s ease,opacity .2s}
+.addbtn:active{transform:scale(.97)}
+.addbtn .apl{font-size:19px;line-height:1;margin-top:-2px}
+.addbtn .tx{text-align:left;line-height:1.12}
+.addbtn .tx b{display:block;font-weight:600;font-size:15px}
+.addbtn .tx span{font-size:10px;opacity:.72;letter-spacing:.02em}
+.hint{font-size:12.5px;color:var(--ink-3)}
+
+.phonewrap{display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start;margin-top:24px}
+.phone{width:328px;flex:0 0 328px;background:#0a0c10;border-radius:38px;padding:13px;
+  border:1px solid #23262c;position:relative;overflow:hidden}
+.notch{width:96px;height:22px;background:#0a0c10;border-radius:0 0 13px 13px;margin:0 auto 8px}
+.lock{border-radius:26px;padding:20px 14px 22px;min-height:520px;position:relative;
+  background:linear-gradient(178deg,#16202e 0%,#22303f 42%,#3c4a53 100%)}
+.lock .clock{text-align:center;color:#fff;padding:10px 0 22px}
+.lock .clock .t{font-size:52px;font-weight:250;letter-spacing:-2px;line-height:1}
+.lock .clock .d{font-size:12.5px;opacity:.82;margin-top:5px}
+
+.notif{background:rgba(255,255,255,.17);backdrop-filter:blur(18px);border-radius:15px;
+  padding:11px 12px;margin-bottom:11px;color:#fff;
+  opacity:0;transform:translateY(-9px);transition:opacity .45s ease,transform .45s ease}
+.notif.in{opacity:1;transform:none}
+.notif .hd{display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.06em;opacity:.86}
+.notif .hd .ic{width:14px;height:14px;border-radius:3.5px;background:#f6f3ec;color:#1b2a41;
+  font-size:8px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.notif .ti{font-size:13.5px;font-weight:600;margin-top:5px;line-height:1.28}
+.notif .bo{font-size:12.5px;opacity:.88;margin-top:2px;line-height:1.35}
+
+/* the pass itself, at Wallet proportions */
+.pass{width:100%;border-radius:13px;background:var(--navy);color:#f6f3ec;overflow:hidden;
+  box-shadow:0 12px 34px rgba(0,0,0,.34);transition:transform .5s cubic-bezier(.3,.8,.3,1)}
+.pass.flip{transform:rotateY(180deg)}
+.pass .top{display:flex;align-items:flex-start;padding:13px 14px 0}
+.pass .top .lg{font-size:11px;letter-spacing:.15em;color:#8fa3bb;font-weight:600}
+.pass .top .hf{margin-left:auto;text-align:right}
+.pass .top .hf .k{font-size:8px;letter-spacing:.15em;color:#8fa3bb}
+.pass .top .hf .v{font-size:19px;font-weight:660;margin-top:2px;letter-spacing:-.03em}
+.pass .prim{padding:14px 14px 13px}
+.pass .prim .k{font-size:8px;letter-spacing:.15em;color:#8fa3bb}
+.pass .prim .v{font-size:22px;font-weight:660;letter-spacing:-.04em;margin-top:4px;line-height:1.14}
+.pass .fields{display:flex;padding:0 14px 13px;gap:14px}
+.pass .fields div{flex:1;min-width:0}
+.pass .fields .k{font-size:8px;letter-spacing:.14em;color:#8fa3bb}
+.pass .fields .v{font-size:13.5px;margin-top:3px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pass .strip{padding:9px 14px;font-size:12px;background:#16233a;border-top:1px solid #2b3d57;
+  border-bottom:1px solid #2b3d57;display:flex;align-items:center;gap:8px}
+.pass .strip .dot{width:7px;height:7px;border-radius:50%;background:#7fd6a0;flex:0 0 7px}
+.pass.warn .strip{background:#3a2f18;border-color:#5a4a22}
+.pass.warn .strip .dot{background:#f2c14e}
+.pass.bad .strip{background:#3d2020;border-color:#5e2f2f}
+.pass.bad .strip .dot{background:#e08a7a}
+.pass .qr{background:#f6f3ec;margin:13px 14px 14px;border-radius:7px;padding:9px;text-align:center}
+.pass .back{padding:4px 0 8px}
+.pass .back .r{padding:10px 14px;border-bottom:1px solid #2b3d57}
+.pass .back .r:last-child{border-bottom:none}
+.pass .back .k{font-size:8px;letter-spacing:.15em;color:#8fa3bb}
+.pass .back .v{font-size:12.8px;margin-top:4px;line-height:1.45;color:#e7ebf1}
+
+.ctl{flex:1;min-width:250px}
+.ctl .hd{font-size:10.5px;letter-spacing:.15em;color:var(--ink-3);margin-bottom:11px}
+.states{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.stbtn{font-size:12.5px;background:var(--card);border:1px solid var(--rule);color:var(--ink-2);
+  padding:7px 12px;border-radius:15px;cursor:pointer;font-family:inherit;transition:all .16s}
+.stbtn.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.sim{background:var(--brick);color:#fff;border:none;border-radius:9px;padding:13px 18px;
+  font-family:inherit;font-size:14.5px;cursor:pointer;width:100%;transition:transform .14s,opacity .2s}
+.sim:active{transform:scale(.985)}
+.sim:disabled{opacity:.45;cursor:default}
+.log{margin-top:16px;border-top:1px solid var(--rule)}
+.log .e{display:flex;gap:13px;padding:9px 0;border-bottom:1px solid var(--rule);
+  opacity:0;transform:translateX(-6px);transition:opacity .35s,transform .35s}
+.log .e.in{opacity:1;transform:none}
+.log .e .t{font-size:11px;color:var(--ink-3);width:64px;flex:0 0 64px}
+.log .e .m{font-size:13.5px;line-height:1.4}
+.flipbtn{background:none;border:none;color:var(--ink-2);font-family:inherit;font-size:13px;
+  cursor:pointer;padding:0;border-bottom:1px solid var(--rule);margin-top:14px}
+</style></head><body>
+<div class="gate" id="gate"><div class="in">
+  <div class="tag mono">SEPTEMBER IN BOSTON</div>
+  <h2>One email.<br>Then never again.</h2>
+  <p>This is the web version. The Wallet card &mdash; your stop, your street, your month, on the lock screen &mdash; is nearly ready. Leave an address and I&rsquo;ll tell you the day it&rsquo;s live.</p>
+  <form action="https://docs.google.com/forms/d/e/1FAIpQLSc5A1nMSW-ZKIGalDBZIRVeb50egwjisEK-0FtPGDUGHuqBQw/formResponse" method="POST" target="gate-sink" id="gate-form" autocomplete="on">
+    <input type="email" name="entry.11513074" placeholder="you@school.edu" required aria-label="Email">
+    <button type="submit">Tell me once</button>
+  </form>
+  <p class="ok" id="gate-ok">Got it. See you when it&rsquo;s ready.</p>
+  <p class="promise">We will never spam you. No newsletter, no updates, no offers, nothing sold on.
+  One email, ever &mdash; the day the Wallet card launches. That is the only reason we are asking.</p>
+  <button class="skip" id="gate-skip">Just let me look around</button>
+</div></div>
+<iframe name="gate-sink" style="display:none" title="submit"></iframe>
+<script>
+(function(){
+  var KEY="sib.gate", g=document.getElementById("gate");
+  // Channels where a wall costs more than it collects arrive with ?nogate=1
+  if(new URLSearchParams(location.search).get("nogate")==="1"){ localStorage.setItem(KEY,"1"); }
+  if(localStorage.getItem(KEY)){ g.remove(); return; }
+  document.documentElement.style.overflow="hidden";
+  requestAnimationFrame(function(){ g.classList.add("on"); });
+  function close(){ localStorage.setItem(KEY,"1"); g.classList.remove("on");
+    document.documentElement.style.overflow="";
+    setTimeout(function(){ g.remove(); }, 340); }
+  document.getElementById("gate-skip").addEventListener("click", close);
+  document.getElementById("gate-form").addEventListener("submit", function(){
+    localStorage.setItem(KEY,"1");
+    document.getElementById("gate-form").style.display="none";
+    document.getElementById("gate-ok").style.display="block";
+    setTimeout(close, 1100);
+  });
+})();
+</script>
+<div class="strip"><div class="in mono"><a class="on" href="/"><span class="bullet"></span>TODAY</a><a class="" href="/move-in/">MOVE IN</a><a class="" href="/september/">SEPTEMBER</a><a class="" href="/boston/">BOSTON</a><a class="" href="/events/">EVENTS</a></div></div>
+
+<div class="wrap"><div class="meta mono">
+<span>BOSTON, MA</span><span>42.3601°N 71.0589°W</span>
+<span>AUG 24</span>
+<span>SUNSET 19:31</span>
+<span>8 DAYS TO SEPT 1</span></div></div>
+<div class="wrap">
+  <h1 class="display">SEPTEMBER</h1>
+  <p class="sub">Boston starts over every September. Thousands of people arrive in the same week, move into the same streets, and learn the same city at the same time.</p>
+
+  <div class="sh mono">THE MONTH <span class="c">12 stops</span></div>
+  <div class="tl">
+    <div class="stop">
+      <div class="d mono">SEPT 01</div>
+      <div class="h">Arrival</div>
+      <div class="p">Leases turn over. 60 to 70 percent of the city changes address on one day. U-Hauls double-parked on every street in Allston.</div></div><div class="stop">
+      <div class="d mono">SEPT 02</div>
+      <div class="h">The first morning</div>
+      <div class="p">You wake up in a room with no curtains and no idea where the nearest coffee is.</div></div><div class="stop">
+      <div class="d mono">SEPT 03</div>
+      <div class="h">Move-in</div>
+      <div class="p">Dorm elevators. Parents holding doors. Mini fridges in hallways. Cardboard everywhere.</div></div><div class="stop">
+      <div class="d mono">SEPT 05</div>
+      <div class="h">Orientation</div>
+      <div class="p">A lanyard, a tote bag, and eleven names you will not remember.</div></div><div class="stop">
+      <div class="d mono">SEPT 06</div>
+      <div class="h">Learning the T</div>
+      <div class="p">You take the Green Line the wrong direction. Everyone does. Twice.</div></div>
+    <div class="stop"><div class="d mono">— </div><div class="h"><a href="/september/" style="border-bottom:2px solid var(--brick)">All of September →</a></div></div>
+  </div>
+
+  <div class="sh mono">A DAY IN IT</div>
+  <div class="moments mono">
+    <div class="moment"><span class="t">8:17 AM</span><span class="l">First coffee.</span></div><div class="moment"><span class="t">9:04 AM</span><span class="l">Wrong building.</span></div><div class="moment"><span class="t">9:17 AM</span><span class="l">Found it.</span></div><div class="moment"><span class="t">12:31 PM</span><span class="l">Lunch with people you met yesterday.</span></div><div class="moment"><span class="t">5:48 PM</span><span class="l">Still unpacking.</span></div><div class="moment"><span class="t">8:22 PM</span><span class="l">Roommates are finally starting to talk.</span></div><div class="moment"><span class="t">11:43 PM</span><span class="l">Tomorrow is the first day.</span></div>
+  </div>
+
+  <div class="sh mono">TONIGHT AND THIS WEEK <span class="c">campus calendars, live</span></div>
+  <div class="grid">
+    <div class="flyer">
+      <div class="when mono">MON 4 pm</div>
+      <div class="t"><a href="https://calendar.northeastern.edu/event/guide-to-a-baseball-game-at-the-washington-nationals">Guide to a Baseball Game at the Washington Nationals</a></div>
+      <div class="w">Northeastern</div>
+      
+    </div><div class="flyer">
+      <div class="when mono">TUE 6 pm</div>
+      <div class="t"><a href="https://calendar.mit.edu/event/hsa-august-picnic">HSA August Picnic</a></div>
+      <div class="w">MIT · Bexley Garden</div>
+      
+    </div><div class="flyer">
+      <div class="when mono">TUE 6 pm</div>
+      <div class="t"><a href="https://calendar.mit.edu/event/tim-titans-creative-collaborative">Tim Titans - Creative Collaborative</a></div>
+      <div class="w">MIT</div>
+      
+    </div><div class="flyer">
+      <div class="when mono">WED 11:30 am</div>
+      <div class="t"><a href="https://calendar.mit.edu/event/food-truck-wednesdays">Food Truck Wednesdays</a></div>
+      <div class="w">MIT · Building E23, Outside</div>
+      
+    </div><div class="flyer">
+      <div class="when mono">THU 6 pm</div>
+      <div class="t"><a href="https://calendar.northeastern.edu/event/womens-soccer-vs-yale">Women's Soccer vs. Yale</a></div>
+      <div class="w">Northeastern · Parsons Field</div>
+      
+    </div><div class="flyer">
+      <div class="when mono">FRI 10 am</div>
+      <div class="t"><a href="https://calendar.mit.edu/event/4th-mit-global-humanities-forum-on-recovering-agency-through-visual-arts-amid-political-uncertainty-and-exile-on-august-28-online">4th MIT Global Humanities Forum on “Recovering Agency through Visual Arts amid Political Uncertainty and Exile” on August 28 (online)</a></div>
+      <div class="w">MIT</div>
+      
+    </div>
+  </div>
+
+  <div class="sh mono">YOUR BLOCK <span class="c">Fenway/Kenmore</span></div>
+  <div class="grid">
+    <div class="label"><div class="k mono">STREET CLEANING</div>
+      <div class="v">Today, 12.01am.
+      Both sides.
+      A ticket is $40.</div></div>
+    <div class="label"><div class="k mono">TRASH</div><div class="v">MF. Out after 5pm the night before.</div></div>
+    <div class="label"><div class="k mono">STORROW DRIVE</div><div class="v">Clearance drops to 9 feet. Your rental truck is 12. Do not.</div></div>
+  </div>
+
+  <div class="sh mono">FROM YOUR STOP <span class="c">MBTA, live</span></div>
+  <div class="sched">
+    <div class="r"><span class="w mono">15:37</span>
+      <div class="b"><div class="t">D</div>
+      <div class="s">Kenmore · 3 min</div></div></div><div class="r"><span class="w mono">15:41</span>
+      <div class="b"><div class="t">C</div>
+      <div class="s">Kenmore · 7 min</div></div></div><div class="r"><span class="w mono">15:43</span>
+      <div class="b"><div class="t">C</div>
+      <div class="s">Kenmore · 10 min</div></div></div>
+    <div class="r"><span class="w mono">SERVICE</span><div class="b"><div class="t">Normal service</div></div></div>
+  </div>
+
+  <div class="sh mono">TRUCKS OUT TODAY <span class="c">city schedule</span></div>
+  <div class="sched">
+    <div class="r"><span class="w mono">11am-3pm</span>
+      <div class="b"><div class="t">Crepe Shop</div><div class="s">Boylston and Clarendon Streets · Back Bay</div></div></div><div class="r"><span class="w mono">11am-2pm</span>
+      <div class="b"><div class="t">Boston Street Tacos</div><div class="s">Campbell Resource Center (1216 Dorchester Ave.) · Dorchester</div></div></div><div class="r"><span class="w mono">11am-3pm</span>
+      <div class="b"><div class="t">Chicken &amp; Rice Guys</div><div class="s">Pearl &amp; Franklin Streets (85 Pearl Street) · Downtown</div></div></div><div class="r"><span class="w mono">3pm-8pm</span>
+      <div class="b"><div class="t">Mr. Pacho Colombian Food Truck</div><div class="s">Maverick Square (2 Sumner Street) · East Boston</div></div></div><div class="r"><span class="w mono">11am-3pm</span>
+      <div class="b"><div class="t">Aby's House</div><div class="s">Boston University (East Campus) · Fenway-Kenmore</div></div></div><div class="r"><span class="w mono">3pm-8pm</span>
+      <div class="b"><div class="t">Aby's House</div><div class="s">Boston University (East Campus) · Fenway-Kenmore</div></div></div>
+  </div>
+</div>
+<div class="wrap"><div class="ft mono">
+UPDATED 8/24/2026, 3:34:09 PM ET · REBUILT THREE TIMES A DAY · NO API KEYS<br>
+CITY OF BOSTON OPEN DATA · MBTA V3 · NORTHEASTERN AND MIT PUBLIC CALENDARS · OPEN-METEO<br>
+DEPOSIT DATES COMPUTED FROM MASSACHUSETTS LAW — SEE MASS.GOV. INFORMATION, NOT LEGAL ADVICE.<br>
+OPEN SOURCE · NOTHING ABOUT YOU LEAVES YOUR PHONE
+</div></div></body></html>

@@ -4,8 +4,8 @@ import { experienceCSS } from "./experience.js";
 
 const D = JSON.parse(readFileSync(new URL("../out/data.json", import.meta.url)));
 const SEPT = JSON.parse(readFileSync(new URL("../data/september.json", import.meta.url)));
-const out = new URL("../docs/", import.meta.url);
-const BASE = "/september-boston";
+const out = new URL((process.env.OUT_DIR ?? "../docs") + "/", import.meta.url);
+const BASE = process.env.BASE_PATH ?? "/september-boston";
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSc5A1nMSW-ZKIGalDBZIRVeb50egwjisEK-0FtPGDUGHuqBQw/formResponse";
